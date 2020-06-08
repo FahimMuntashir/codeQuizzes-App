@@ -19,6 +19,9 @@ class CodeQuiz extends StatefulWidget {
 }
 
 class _State extends State<CodeQuiz> {
+
+  int _currentIndex = 0;
+
   List questionBank = [
     Question.name(
         'Only character or integer can be used in switch statement', false),
@@ -67,71 +70,109 @@ class _State extends State<CodeQuiz> {
         title: Text('Code Quiz'),
         centerTitle: true,
       ),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Image.asset(
-                'images/11.png',
-                height: 200,
-                width: 300,
+      body: Builder(
+
+        builder:(BuildContext context) =>Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Image.asset(
+                  'images/11.png',
+                  height: 200,
+                  width: 300,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                      style: BorderStyle.solid,
-                      color: Colors.teal,
-                    )),
-                height: 120.0,
-                child: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text(
-                    questionBank[5].questionText,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  decoration: BoxDecoration(
+//                    color: Colors.grey,
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(
+                        style: BorderStyle.solid,
+                        color: Colors.teal,
+                      )),
+                  height: 120.0,
+                  child: Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      questionBank[_currentIndex%questionBank.length].questionText,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                )),
+                  )),
+                ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                RaisedButton(
-                  color: Colors.lightBlue,
-                  onPressed: () => _checkAnswer(),
-                  child: Text('TRUE'),
-                ),
-                RaisedButton(
-                  color: Colors.lightBlue,
-                  onPressed: () => _checkAnswer(),
-                  child: Text('FALSE'),
-                ),
-                RaisedButton(
-                  color: Colors.lightBlue,
-                  onPressed: () => _nextQuestion(),
-                  child: Icon(
-                    Icons.arrow_right,
-                  )
-                ),
-              ],
-            ),
-            Spacer(),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    color: Colors.lightBlue,
+                    onPressed: () => _checkAnswer(true, context ),
+                    child: Text('TRUE'),
+                  ),
+                  RaisedButton(
+                    color: Colors.lightBlue,
+                    onPressed: () => _checkAnswer(false,context),
+                    child: Text('FALSE'),
+                  ),
+                  RaisedButton(
+                    color: Colors.lightBlue,
+                    onPressed: () => _nextQuestion(),
+                    child: Icon(
+                      Icons.arrow_right,
+                    )
+                  ),
+                ],
+              ),
+
+              Spacer(),
+
+            ],
+          ),
         ),
       ),
+
     );
   }
 
-  _checkAnswer() {}
+  _checkAnswer(bool ansChoice, BuildContext context) {
+    if (ansChoice == questionBank[_currentIndex].isCorrect) {
 
-  _nextQuestion() {}
+      setState(() {
+        _currentIndex++;
+
+
+
+      });
+      debugPrint('yes correct');
+      final snackBar = SnackBar(
+        backgroundColor: Colors.teal,
+
+        duration: Duration(milliseconds: 500),
+        content: Text('Correct'),);
+      Scaffold.of(context).showSnackBar(snackBar);
+
+    }  else{
+      debugPrint('incorrect');
+      final snackBar = SnackBar(
+        backgroundColor: Colors.teal,
+        duration: Duration(milliseconds: 500),
+
+        content: Text('Wrong'),);
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  _nextQuestion() {
+    setState(() {
+      _currentIndex++;
+
+    });
+  }
+
 }
