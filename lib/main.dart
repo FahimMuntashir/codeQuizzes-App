@@ -19,7 +19,6 @@ class CodeQuiz extends StatefulWidget {
 }
 
 class _State extends State<CodeQuiz> {
-
   int _currentIndex = 0;
 
   List questionBank = [
@@ -67,38 +66,40 @@ class _State extends State<CodeQuiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF258083),
         title: Text('Code Quiz'),
         centerTitle: true,
       ),
+      backgroundColor: Color(0xff258083),
       body: Builder(
-
-        builder:(BuildContext context) =>Container(
+        builder: (BuildContext context) => Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Center(
                 child: Image.asset(
                   'images/11.png',
-                  height: 200,
-                  width: 300,
+                  height: 250,
+                  width: 500,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
                   decoration: BoxDecoration(
-//                    color: Colors.grey,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
                       border: Border.all(
                         style: BorderStyle.solid,
-                        color: Colors.teal,
+                        color: Color(0xFF21878B),
                       )),
                   height: 120.0,
                   child: Center(
                       child: Padding(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      questionBank[_currentIndex%questionBank.length].questionText,
+                      questionBank[_currentIndex % questionBank.length]
+                          .questionText,
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -111,59 +112,68 @@ class _State extends State<CodeQuiz> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   RaisedButton(
-                    color: Colors.lightBlue,
-                    onPressed: () => _checkAnswer(true, context ),
-                    child: Text('TRUE'),
-                  ),
-                  RaisedButton(
-                    color: Colors.lightBlue,
-                    onPressed: () => _checkAnswer(false,context),
-                    child: Text('FALSE'),
-                  ),
-                  RaisedButton(
-                    color: Colors.lightBlue,
-                    onPressed: () => _nextQuestion(),
+                    color: Color(0xFFA0766E),
+                    onPressed: () => _preQuestion(),
                     child: Icon(
-                      Icons.arrow_right,
-                    )
+                      Icons.arrow_left,
+
+                    ),
                   ),
+                  RaisedButton(
+                    color: Color(0xFFA0766E),
+                    onPressed: () => _checkAnswer(true, context),
+                    child: Text(
+                      'TRUE',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Color(0xFFA0766E),
+                    onPressed: () => _checkAnswer(false, context),
+                    child: Text('FALSE',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),),
+                  ),
+                  RaisedButton(
+                      color: Color(0xFFA0766E),
+                      onPressed: () => _nextQuestion(),
+                      child: Icon(
+                        Icons.arrow_right,
+                      )),
                 ],
               ),
-
               Spacer(),
-
             ],
           ),
         ),
       ),
-
     );
   }
 
   _checkAnswer(bool ansChoice, BuildContext context) {
     if (ansChoice == questionBank[_currentIndex].isCorrect) {
-
       setState(() {
-        _currentIndex++;
-
-
-
+        _currentIndex = (_currentIndex + 1) % questionBank.length;
       });
       debugPrint('yes correct');
       final snackBar = SnackBar(
         backgroundColor: Colors.teal,
-
         duration: Duration(milliseconds: 500),
-        content: Text('Correct'),);
+        content: Text('Correct'),
+      );
       Scaffold.of(context).showSnackBar(snackBar);
-
-    }  else{
+    } else {
       debugPrint('incorrect');
       final snackBar = SnackBar(
         backgroundColor: Colors.teal,
         duration: Duration(milliseconds: 500),
-
-        content: Text('Wrong'),);
+        content: Text('Wrong'),
+      );
       Scaffold.of(context).showSnackBar(snackBar);
     }
   }
@@ -171,8 +181,12 @@ class _State extends State<CodeQuiz> {
   _nextQuestion() {
     setState(() {
       _currentIndex++;
-
     });
   }
 
+  _preQuestion() {
+    setState(() {
+      _currentIndex--;
+    });
+  }
 }
