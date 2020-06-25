@@ -8,6 +8,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.dark,
+      ),
       home: CodeQuiz(),
     );
   }
@@ -66,11 +69,11 @@ class _State extends State<CodeQuiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF258083),
+//        backgroundColor: Color(0xFF258083),
         title: Text('Code Quiz'),
         centerTitle: true,
       ),
-      backgroundColor: Color(0xff258083),
+//      backgroundColor: Color(0xff258083),
       body: Builder(
         builder: (BuildContext context) => Container(
           child: Column(
@@ -93,7 +96,7 @@ class _State extends State<CodeQuiz> {
                         style: BorderStyle.solid,
                         color: Color(0xFF21878B),
                       )),
-                  height: 120.0,
+                  height: 150.0,
                   child: Center(
                       child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -101,6 +104,7 @@ class _State extends State<CodeQuiz> {
                       questionBank[_currentIndex % questionBank.length]
                           .questionText,
                       style: TextStyle(
+                        color: Colors.teal,
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
