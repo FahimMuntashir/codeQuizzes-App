@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
@@ -104,7 +105,8 @@ class _State extends State<CodeQuiz> {
                       questionBank[_currentIndex % questionBank.length]
                           .questionText,
                       style: TextStyle(
-                        color: Colors.teal,
+                        fontFamily: 'Ubuntu',
+                        color: Colors.black54,
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
